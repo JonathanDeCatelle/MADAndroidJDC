@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="order"
+            type="com.example.delawaretrackandtraceapp.domain.Order" />
+        <variable
+            name="clickListener"
+            type="com.example.delawaretrackandtraceapp.screens.listoforder.OrderListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/orderItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->clickListener.onClick(order)}"
+        android:padding="8dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/orderDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:OrderDate="@{order}"
+            app:layout_constraintEnd_toStartOf="@+id/orderNummer"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/orderNummer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{order.orderId}"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/orderStatus"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/orderDate"
+            app:layout_constraintTop_toTopOf="@+id/orderDate" />
+
+        <TextView
+            android:id="@+id/orderStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:OrderStatus="@{order}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/orderNummer"
+            app:layout_constraintTop_toTopOf="@+id/orderNummer" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
