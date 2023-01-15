@@ -23,7 +23,13 @@ class OrderSummaryFragment : Fragment() {
 
     private lateinit var binding: FragmentOrderSummaryBinding
     private val viewModel: DetailViewModel by activityViewModels()
-
+//    private val orderViewModel: ListOfOrderViewModel by activityViewModels()
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
+//
+//        ListOfOrderViewModelFactory(dataSource, application)
+//        //orderViewModel = ViewModelProvider(requireActivity(), listOfOrderViewModelFactory).get(ListOfOrderViewModel::class.java)
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +38,15 @@ class OrderSummaryFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_order_summary, container, false)
 
+//        //setup the db connection
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
+//
+//        //viewmodel
+//        val viewModelFactory = DetailViewModelFactory(dataSource, application)
+//        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(DetailViewModel::class.java)
+
+//        TODO: summary scherm
         viewModel.dataOrder.observe(viewLifecycleOwner) { order ->
             binding.apply {
                 for (item in order!!.items) {

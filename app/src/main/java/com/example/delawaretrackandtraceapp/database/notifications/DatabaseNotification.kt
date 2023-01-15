@@ -37,6 +37,9 @@ data class DatabaseNotification(
     @Json(name = "orderId")
     var orderId: String = "",
 
+//    @ColumnInfo(name = "order")
+//    @Json(name = "order")
+//    var order: Order
 )
 
 fun List<DatabaseNotification>.asDomainModel(): List<Notification>{
@@ -48,6 +51,7 @@ fun List<DatabaseNotification>.asDomainModel(): List<Notification>{
             duration = it.duration,
             notificationDate = it.notificationDate,
             orderId = it.orderId,
+//            order = it.order
         )
     }
 }
@@ -60,5 +64,6 @@ fun DatabaseNotification.asNotification(): Notification {
         duration = duration,
         notificationDate = notificationDate,
         orderId = orderId,
+//      order = it.order
     )
 }

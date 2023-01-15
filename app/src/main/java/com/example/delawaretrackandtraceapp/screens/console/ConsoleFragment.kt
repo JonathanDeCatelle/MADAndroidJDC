@@ -43,9 +43,7 @@ class ConsoleFragment : Fragment(){
         val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
 
         ListOfOrderViewModelFactory(dataSource, application)
-        //orderViewModel = ViewModelProvider(requireActivity(), listOfOrderViewModelFactory).get(ListOfOrderViewModel::class.java)
     }
-
     private lateinit var binding : FragmentConsoleBinding
 
     override fun onCreateView(
@@ -60,12 +58,12 @@ class ConsoleFragment : Fragment(){
 
         createNotificationChannel()
 
-        //setup the db connection
         val application = requireNotNull(this.activity).application
         val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
 
         val viewModelFactory = ConsoleViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory)[ConsoleViewModel::class.java]
+
         binding.consoleViewModel = viewModel
         binding.lifecycleOwner = this
 
@@ -107,14 +105,11 @@ class ConsoleFragment : Fragment(){
             buttonSatusUp.text = ">"
 
             buttonSatusUp.setOnClickListener { view: View ->
-
                 viewModel.changeStatus(it, it.packageApi)
 
                 sendNotification(it)
 
-
             }
-
 
             val orderStatus = TextView(context)
             orderStatus.text = it.orderStatus
@@ -124,7 +119,6 @@ class ConsoleFragment : Fragment(){
             orderStatus.gravity = Gravity.CENTER
 
             order.addView(orderNr)
-
             order.addView(buttonSatusUp)
             order.addView(orderStatus)
             binding.ordersLayout.addView(order)
@@ -166,11 +160,9 @@ class ConsoleFragment : Fragment(){
             .setArguments(bundle)
             .createPendingIntent()
 
-        val statusText = checkStatus(order.orderStatus)
-
         val builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-            .setSmallIcon(R.drawable.delaware_logo_opengraph__1_)
-            .setContentTitle(statusText)
+            .setSmallIcon(R.drawable.ordertrackingicon)
+            .setContentTitle("Order: ${order.orderId}")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setGroup(GROUP_KEY_NOTIFICATIONS)
@@ -179,16 +171,6 @@ class ConsoleFragment : Fragment(){
 
         with(NotificationManagerCompat.from(requireContext())) {
             notify(SUMMARY_ID, builder.build())
-        }
-    }
-
-    private fun checkStatus(status: String): String {
-        when (status) {
-            "1" -> return "Uw bestelling werd succesvol aangemaakt!"
-            "2" -> return "Uw bestelling werd verwerkt!"
-            "3" -> return "De bezorger is onderweg"
-            "4" -> return "Uw bestelling is geleverd!"
-            else -> return "onbekende status"
         }
     }
 }

@@ -55,7 +55,7 @@ class ShipmentFragment : Fragment() {
         val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
 
         ListOfOrderViewModelFactory(dataSource, application)
-
+        //orderViewModel = ViewModelProvider(requireActivity(), listOfOrderViewModelFactory).get(ListOfOrderViewModel::class.java)
     }
     private lateinit var viewModel: ShipmentViewModel
     private val adresViewModel: AdresViewModel by activityViewModels()
@@ -69,6 +69,7 @@ class ShipmentFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.title = "Shipment Module"
+        //activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 
@@ -81,6 +82,8 @@ class ShipmentFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity())[ShipmentViewModel::class.java]
 
+
+        //viewModel.setOrders(orderViewModel.dataOrders.value!!)
         items = cartViewModel.cart.value!!;
 
         binding.shipmentText.setText(
@@ -110,7 +113,6 @@ class ShipmentFragment : Fragment() {
                             formaatDoosInvullen(breedteEdit, false)
                             formaatDoosInvullen(hoogteEdit, false)
                             formaatDoosInvullen(diepteEdit, false)
-
                             berekenPrijsSubtotaal()
                         }
 
@@ -130,11 +132,9 @@ class ShipmentFragment : Fragment() {
         binding.shipmentBestellingButton?.setOnClickListener { view: View ->
             if (binding.breedteEdit.text.toString() != "" || binding.hoogteEdit.text.toString() != ""|| binding.diepteEdit.text.toString() != "") {
                 val ord = plaatsBestelling()
-                if (ord.orderId != null) {
-                    val bundle = bundleOf("OrderNr" to ord.orderId)
-                    view.findNavController()
-                        .navigate(R.id.action_shipmentFragment_to_orderDetailFragment, bundle)
-                }
+                val bundle = bundleOf("OrderNr" to ord.orderId)
+                view.findNavController()
+                    .navigate(R.id.action_shipmentFragment_to_orderDetailFragment, bundle)
             } else {
                 Toast.makeText(
                     context,
@@ -177,7 +177,7 @@ class ShipmentFragment : Fragment() {
             if (hoogteEdit.text.toString() != "")
                 hoogte = hoogteEdit.text.toString().toInt()
             if (diepteEdit.text.toString() != "")
-                diepte = diepteEdit.text.toString().toInt() 
+                diepte = diepteEdit.text.toString().toInt()
 
 
             subtotaalPrijs.text = " €" + price.toString().take(5)
@@ -201,8 +201,7 @@ class ShipmentFragment : Fragment() {
         hoogte: Int,
         diepte: Int
     ) {
-
-       resetError()
+        binding.errorText.text = ""
 
         height = hoogte.toDouble()
         width = breedte.toDouble()
@@ -232,19 +231,22 @@ class ShipmentFragment : Fragment() {
             val totalPrice = dozenprijs + palettenprijs + (1 * prijs_verzending) + subPrice
 
             binding.apply {
-
+                //prijsBerekeningTotaal.removeAllViews()
+                //prijsBerekeningTotaal.addView(
                 makeTableRowFortotalCaluclation(
                     hoeveelheidDozen,
                     "dozen",
                     dozenprijs.toInt()
                 )
-
+                //)
+                //prijsBerekeningTotaal.addView(
                 makeTableRowFortotalCaluclation(
                     hoeveelheidPaletten,
                     "paletten",
                     palettenprijs
                 )
-
+                //)
+                //prijsBerekeningTotaal.addView(
                 makeTableRowFortotalCaluclation(
                     1,
                     "verzending",
@@ -361,6 +363,9 @@ class ShipmentFragment : Fragment() {
     }
 
     private fun plaatsBestelling(): OrderPost {
+//        if (binding.editGemeente.text.toString() == "" || binding.editStraat.text.toString() == "" || binding.editHuisnummer.text.toString() == "")
+//            Toast.makeText(context, "Afleveradres moet ingevuld worden", Toast.LENGTH_SHORT).show()
+//        else {
 
         val newPackageId = UUID.randomUUID().toString().substring(0, 6)
 
@@ -415,13 +420,6 @@ class ShipmentFragment : Fragment() {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
         override fun afterTextChanged(s: Editable) {
             berekenPrijs()
-
-        }
-    }
-
-    private fun resetError(){
-        binding.apply {
-            errorText?.text = ""
 
         }
     }

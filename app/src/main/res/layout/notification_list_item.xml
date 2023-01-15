@@ -43,12 +43,25 @@
             android:textSize="17sp"
             app:NotificationMessage="@{notification}"
             app:layout_constraintBottom_toTopOf="@+id/notification_date"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/delete_noti_btn"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="@+id/imageView"
             app:layout_constraintVertical_chainStyle="packed" />
 
-
+        <ImageButton
+            android:id="@+id/delete_noti_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/delete_notification_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/notification_message"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            app:tint="@color/black"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/notification_date"
@@ -56,7 +69,8 @@
             android:layout_height="30dp"
             app:NotificationDate="@{notification}"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/delete_noti_btn"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/notification_message" />
 

@@ -1,20 +1,20 @@
 package com.example.delawaretrackandtraceapp.repository
 
-import androidx.lifecycle.LiveData
 import android.util.Log
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.delawaretrackandtraceapp.database.orderItems.OrderItemDatabase
 import com.example.delawaretrackandtraceapp.database.orders.OrderDatabase
 import com.example.delawaretrackandtraceapp.database.orders.asDomainModel
 import com.example.delawaretrackandtraceapp.database.orders.asOrder
-import com.example.delawaretrackandtraceapp.domain.*
+import com.example.delawaretrackandtraceapp.domain.Order
+import com.example.delawaretrackandtraceapp.domain.OrderItem
+import com.example.delawaretrackandtraceapp.domain.OrderPost
 import com.example.delawaretrackandtraceapp.network.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-
+import com.example.delawaretrackandtraceapp.domain.Package
 
 class OrderRepository(private val database: OrderDatabase, private val orderItemDatabase: OrderItemDatabase) {
     val orders : LiveData<List<Order>> = Transformations.map(database.orderDatabaseDao.getAllOrdersLive()){
@@ -42,9 +42,10 @@ class OrderRepository(private val database: OrderDatabase, private val orderItem
             val orderApi = DelawareApi.retrofitService.getOrder(id).await()
 
             order = orderApi.asDatabaseOrder().asOrder()
-
+            //order = database.orderDatabaseDao.get(id)!!.asOrder()
             Timber.i("end suspend")
-
+//            Log.d("iets", "end suspend")
+//            delay(500)
         }
 
         return order
@@ -73,6 +74,7 @@ class OrderRepository(private val database: OrderDatabase, private val orderItem
         )
 
         try {
+            Log.i("Order Nr", newApiOrder.orderId.toString())
             val checkApiOrder = DelawareApi.retrofitService.putOrder(newApiOrderPost).await()
         } catch (e: Exception){
 

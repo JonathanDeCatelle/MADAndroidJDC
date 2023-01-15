@@ -47,7 +47,9 @@ class DetailViewModel(val database: OrderDatabaseDao, app: Application)  : Andro
 
     init {
         Timber.i("getting orders")
-
+//        viewModelScope.launch {
+//            repository.refreshOrders()
+//        }
     }
 
     fun findOrder(nr : String){

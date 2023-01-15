@@ -18,18 +18,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        drawerLayout = findViewById(R.id.drawerLayout)
-        var navView : NavigationView = findViewById(R.id.navView)
-
         val navController = this.findNavController(R.id.navHostFragment)
-        
+
         val topLevelDestinations = setOf(R.id.startFragment)
 
         appBarConfiguration = AppBarConfiguration(topLevelDestinations)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        NavigationUI.setupWithNavController(navView, navController)
+        //NavigationUI.setupWithNavController(navView, navController)
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }

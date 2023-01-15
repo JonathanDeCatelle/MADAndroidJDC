@@ -33,7 +33,9 @@ val orderAdapter: JsonAdapter<Order> = moshi.adapter(Order::class.java)
 
 private val logger = HttpLoggingInterceptor().apply{level = HttpLoggingInterceptor.Level.BASIC}
 
-
+//private val client = OkHttpClient.Builder()
+//    //.addInterceptor(logger)
+//    .build()
 
 private val fakeClient = createOkHttpClient()
 

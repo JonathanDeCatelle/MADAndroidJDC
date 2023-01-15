@@ -41,7 +41,8 @@ class NotificationRepository(private val database: NotificationDatabase) {
             )
 
             database.notificationDatabaseDao.update(newApiNotification.asDatabaseNotification())
-
+            //TODO update in db
+            //DelawareApi.retrofitService.putNotification(newApiNotification).await()
     }
 
     suspend fun deleteNotificationById(id: String){
@@ -49,7 +50,6 @@ class NotificationRepository(private val database: NotificationDatabase) {
         withContext(Dispatchers.IO){
             DelawareApi.retrofitService.deleteNotificationByIdAsync(id).await()
         }
-        database.notificationDatabaseDao.deleteByNotificationId(id)
     }
 
     suspend fun getNotificationsOfOrder(id: String): List<Notification>{

@@ -17,6 +17,7 @@ class CartViewModel : ViewModel() {
 
     fun calculateOffWholeCart(): Double{
         var returnValue: Int = 0
+        //TODO prijs optellen van alle producten (eerst TODO in SimpleShopViewModel)
         return 0.0
     }
 

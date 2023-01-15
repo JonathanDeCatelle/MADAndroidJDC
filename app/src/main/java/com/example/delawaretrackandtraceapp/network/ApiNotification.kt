@@ -37,6 +37,8 @@ data class ApiNotification(
     @Json(name = "orderId")
     var orderId: String = "",
 
+//    @Json(name = "order")
+//    var order: Order,
 )
 
 fun ApiNotificationContainer.asDomainModel(): List<Notification>{
@@ -62,6 +64,7 @@ fun ApiNotificationContainer.asDatabaseModel(): Array<DatabaseNotification>{
             duration = it.duration,
             notificationDate = it.notificationDate,
             orderId = it.orderId,
+            //order = it.order
         )
     }.toTypedArray()
 }
@@ -75,6 +78,7 @@ fun ApiNotificationsOrderContainer.asDomainModel(): List<Notification>{
             duration = it.duration,
             notificationDate = it.notificationDate,
             orderId = it.orderId,
+            //order = it.order
         )
     }
 }
@@ -88,6 +92,7 @@ fun ApiNotificationsOrderContainer.asDatabaseModel(): Array<DatabaseNotification
             duration = it.duration,
             notificationDate = it.notificationDate,
             orderId = it.orderId,
+            //order = it.order
         )
     }.toTypedArray()
 }

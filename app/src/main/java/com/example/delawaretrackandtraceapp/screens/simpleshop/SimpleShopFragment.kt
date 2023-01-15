@@ -19,6 +19,7 @@ import com.example.delawaretrackandtraceapp.domain.Product
 
 class SimpleShopFragment : Fragment() {
     lateinit var binding: FragmentSimpleShopBinding
+   //private val viewModel: SimpleShopViewModel by activityViewModels()
     lateinit var viewModel: SimpleShopViewModel
     lateinit var adapter: SimpleShopAdapter
 

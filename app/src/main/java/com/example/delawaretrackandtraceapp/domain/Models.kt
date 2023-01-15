@@ -1,8 +1,8 @@
 package com.example.delawaretrackandtraceapp.domain
 
 import java.util.Date
-import com.squareup.moshi.Json
 import com.example.delawaretrackandtraceapp.domain.Package
+import com.squareup.moshi.Json
 
 data class Product(
     var productId: String = "",
@@ -40,10 +40,8 @@ data class Order(
     fun nextStatus() {
         if (orderStatus.toInt() in 0..2) {
             this.orderStatus = OrderStatus.values()[orderStatus.toInt().inc()].toString()
-
         }
     }
-
     fun previousStatus() {
         if (this.orderStatus.toInt() in 1..4) {
             this.orderStatus = OrderStatus.values()[orderStatus.toInt().dec()].toString()
@@ -64,36 +62,6 @@ data class OrderPost(
     var taxAmount: Int = 0,
     var totalAmount: Double = 0.0,
 )
-
-data class Notification(
-    var notificationId: String = "",
-    var message: String = "",
-    var isSeen: Int = 0,
-    var duration: Int = 0,
-    var notificationDate: Date,
-    var orderId: String = "",
-    //var order: Order,
-)
-
-data class Package(
-    var packageId: String = "",
-    var height: Int = 0,
-    var width: Int = 0,
-    var dept: Int = 0,
-    var price: Int = 0,
-)
-
-data class OrderItem (
-    var orderItemId: String = "",
-    var quantity: Int = 0,
-    var totalPrice: Double = 0.0,
-    var productId: String = "",
-    var orderId: String = "",
-) {
-    override fun toString(): String {
-        return "Product: " /*+ this.product.productName*/ + "\tAantal: " + this.quantity + "\tPrijs: " + this.totalPrice
-    }
-}
 
 data class OrderPut(
     @Json(name = "orderId")
@@ -126,3 +94,33 @@ data class OrderPut(
     @Json(name = "totalAmount")
     var totalAmount: Double = 0.0,
 )
+
+data class Notification(
+    var notificationId: String = "",
+    var message: String = "",
+    var isSeen: Int = 0,
+    var duration: Int = 0,
+    var notificationDate: Date,
+    var orderId: String = "",
+    //var order: Order,
+)
+
+data class Package(
+    var packageId: String = "",
+    var height: Int = 0,
+    var width: Int = 0,
+    var dept: Int = 0,
+    var price: Int = 0,
+)
+
+data class OrderItem (
+    var orderItemId: String = "",
+    var quantity: Int = 0,
+    var totalPrice: Double = 0.0,
+    var productId: String = "",
+    var orderId: String = "",
+) {
+    override fun toString(): String {
+        return "Product: " /*+ this.product.productName*/ + "\tAantal: " + this.quantity + "\tPrijs: " + this.totalPrice
+    }
+}

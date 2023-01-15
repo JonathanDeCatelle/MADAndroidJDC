@@ -29,6 +29,13 @@ class OrderLogsFragment : Fragment() {
 
     private lateinit var binding : FragmentOrderLogsBinding
     private val viewModel: DetailViewModel by activityViewModels()
+//    private val orderViewModel: ListOfOrderViewModel by activityViewModels(){
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
+//
+//        ListOfOrderViewModelFactory(dataSource, application)
+//        //orderViewModel = ViewModelProvider(requireActivity(), listOfOrderViewModelFactory).get(ListOfOrderViewModel::class.java)
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +47,13 @@ class OrderLogsFragment : Fragment() {
             R.layout.fragment_order_logs, container, false
         )
 
+//        //setup the db connection
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
+//
+//        //viewmodel
+//        val viewModelFactory = DetailViewModelFactory(dataSource, application)
+//        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(DetailViewModel::class.java)
 
         //databinding
         binding.detailViewModel = viewModel
@@ -90,5 +104,43 @@ class OrderLogsFragment : Fragment() {
         return binding.root
     }
 
+//    private fun setLogs(){
+//
+//        viewModel.dataOrder.observe(this) { order ->
+//            order?.notifications?.forEach {
+//                //LINEARLAYOUT
+//                val log = LinearLayout(context)
+//                log.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+//                log.orientation = LinearLayout.HORIZONTAL
+//                log.gravity = Gravity.CENTER_VERTICAL
+//
+//                //IMAGE
+//                val image = ImageView(context)
+//                image.layoutParams = LinearLayout.LayoutParams(140, 140)
+////            if (it.notificationStatus == OrderStatus.DELIVERED) {
+////                image.setImageResource(R.drawable.log_home)
+////            }else if (it.notificationStatus == OrderStatus.SHIPPED){
+////                image.setImageResource(R.drawable.log_delivery_truck)
+////            }else{
+//                image.setImageResource(R.drawable.log_checkmark)
+////            }
+//                image.setColorFilter(Color.GREEN)
+//                image.setPadding(10, 10, 20, 10)
+//
+//
+//                val formatter = DateTimeFormatter.ofPattern("dd-MM | HH:mm")
+//                //TEXT
+//                val text = TextView(context)
+//                text.text = "${it.message}\n${order.orderDate}"
+//                text.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+//                text.textSize = 17F
+//
+//                log.addView(image)
+//                log.addView(text)
+//                binding.logs.addView(log)
+//            }
+//        }
+//
+//    }
 
 }

@@ -23,7 +23,9 @@ class NotificationItemViewHolder(val binding: NotificationListItemBinding): Recy
 
     fun bind(item: Notification, clickListener: NotificationListener, viewModel: NotificationsViewModel) {
         binding.notification = item
-
+        binding.deleteNotiBtn.setOnClickListener {
+            viewModel.deleteNotificationById(item.notificationId)
+        }
 
         //Tonen details order
         binding.clickListener = clickListener

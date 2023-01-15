@@ -29,7 +29,6 @@ data class OneApiOrderPutContainer(
     val oneApiOrderPut: ApiOrderPut
 )
 
-
 @JsonClass(generateAdapter = true)
 data class ApiOrder(
     @Json(name = "orderId")
@@ -112,10 +111,6 @@ data class ApiOrderPut(
     var totalAmount: Double = 0.0,
 )
 
-
-
-
-
 fun ApiOrderContainer.asDomainModel(): List<Order>{
     return apiOrders.map {
         Order(
@@ -154,6 +149,9 @@ fun ApiOrderContainer.asDatabaseModel(): Array<DatabaseOrder>{
     }.toTypedArray()
 }
 
+/*
+* Convert a single api order to a database order
+* */
 fun OneApiOrderContainer.asDatabaseOrder(): DatabaseOrder{
     return DatabaseOrder(
         orderId = oneApiOrder.orderId,

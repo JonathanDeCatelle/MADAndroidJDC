@@ -18,6 +18,7 @@ class ShipmentViewModel : ViewModel() {
         get() = _dataOrders
 
     fun findOrder(nr : String){
+//        _dataOrder.value = Orders().findOrder(nr)
         _dataOrder.value = _dataOrders.value?.find { o -> o.orderId == nr }!!;
     }
 

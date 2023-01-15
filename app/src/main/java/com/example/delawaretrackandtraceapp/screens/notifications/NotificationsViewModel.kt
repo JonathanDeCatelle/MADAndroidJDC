@@ -58,7 +58,9 @@ class NotificationsViewModel(val database: NotificationDatabaseDao, app: Applica
         Timber.i("Delete notification")
         viewModelScope.launch {
             _status.value = NotificationApiStatus.LOADING
-
+            withContext(Dispatchers.IO){
+                db.notificationDatabaseDao.deleteByNotificationId(id)
+            }
             repository.deleteNotificationById(id)
             _status.value = NotificationApiStatus.DONE
         }

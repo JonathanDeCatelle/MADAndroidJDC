@@ -39,6 +39,7 @@ class OrderDetailFragment : Fragment(){
         val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
 
         ListOfOrderViewModelFactory(dataSource, application)
+        //orderViewModel = ViewModelProvider(requireActivity(), listOfOrderViewModelFactory).get(ListOfOrderViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -70,8 +71,9 @@ class OrderDetailFragment : Fragment(){
 
         //binding.orderNrText2.text = getString(R.string.order_nr_titel, viewModel.dataOrder.value?.orderId)
         viewModel.dataOrder.observe(viewLifecycleOwner) { order ->
+            resetStatusActive()
             for (i in 1..order.orderStatus.toInt()) {
-                Log.i("order", i.toString())
+                Log.i("Status", i.toString())
                 setStatusActive(i)
             }
         }
@@ -80,25 +82,45 @@ class OrderDetailFragment : Fragment(){
             setETA()
         })
 
-
+        // onClickListeners, replace 'orderDetailScreen' with different fragments
         binding.apply {
-
+            // orderSummaryFragment
+            //val bundle = bundleOf("order" to viewModel.dataOrder.value)
             val summaryFragment = OrderSummaryFragment()
-
+            //summaryFragment.arguments = bundle
+            // orderLogsFragment
             val logsFragment = OrderLogsFragment()
-            logsFragment.arguments = arguments
+            logsFragment.arguments = arguments // pass arguments of this fragment to other fragment
+            // trackAndTraceFragment
             val trackAndTraceFragment = OrderTrackAndTraceFragment()
-            trackAndTraceFragment.arguments = arguments
+            trackAndTraceFragment.arguments = arguments // pass arguments of this fragment to other fragment
+            // Page Adapter used to swipe through fragments
             val fragmentActivity = requireActivity()
             val pagerAdapter = PagerAdapter(fragmentActivity)
             viewPager.adapter = pagerAdapter
             // Add the fragments to the PagerAdapter.
-            pagerAdapter.addFragment(summaryFragment)
             pagerAdapter.addFragment(logsFragment)
             pagerAdapter.addFragment(trackAndTraceFragment)
+            pagerAdapter.addFragment(summaryFragment)
         }
 
         return binding.root
+    }
+
+    private fun resetStatusActive() {
+        for (i in 1..4) {
+            val container: CardView = when(i){
+                1 -> binding.StatusBox1
+                2-> binding.StatusBox2
+                3-> binding.StatusBox3
+                4 -> binding.StatusBox4
+                else -> return
+            }
+            container.setCardBackgroundColor(Color.BLACK)
+            val childChild = container.getChildAt(0) as CardView
+            val imgV = childChild.getChildAt(0) as ImageView
+            imgV.setColorFilter(Color.BLACK)
+        }
     }
 
     private fun setStatusActive(i: Int) {

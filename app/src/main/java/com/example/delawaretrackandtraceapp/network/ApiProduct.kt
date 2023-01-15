@@ -38,7 +38,9 @@ data class ApiProduct (
     var depth: Double = 0.0,
 )
 
-
+/*
+* Convert network results into Domain jokes
+* */
 fun ApiProductContainer.asDomainModel(): List<Product>{
     return apiProducts?.map {
         Product(
