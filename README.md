@@ -1,4 +1,4 @@
-# Android - Delaware - Niels Van Hove
+# Android - Delaware - De Catelle Jonathan
 Dit is de repository van de Android track and trace applicatie gecreëerd voor Delaware door groep 12.
 
 Met deze applicatie kan je bestellingen plaatsen en deze bestelling dan ook volgen tot hij bij jouw thuis is.
