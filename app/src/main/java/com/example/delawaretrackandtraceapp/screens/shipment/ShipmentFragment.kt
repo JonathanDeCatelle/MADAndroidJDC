@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.os.Handler
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,22 +30,16 @@ import com.example.delawaretrackandtraceapp.screens.simpleshop.SimpleShopAdapter
 import com.example.delawaretrackandtraceapp.screens.simpleshop.SimpleShopListener
 import com.example.delawaretrackandtraceapp.screens.simpleshop.SimpleShopViewModel
 import com.example.delawaretrackandtraceapp.screens.simpleshop.SimpleShopViewModelFactory
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.UUID
 import kotlin.math.ceil
 import kotlin.math.max
-import kotlin.random.Random
-
 
 class ShipmentFragment : Fragment() {
     private lateinit var binding: FragmentShipmentBinding
     private val shopViewModel: SimpleShopViewModel by activityViewModels() {
         val application = requireNotNull(this.activity).application
         val dataSource = ProductDatabase.getInstance(application).productDatabaseDao
-
         val adapter = SimpleShopAdapter(SimpleShopListener { })
         SimpleShopViewModelFactory(dataSource, application, adapter)
     }
@@ -53,9 +47,7 @@ class ShipmentFragment : Fragment() {
     private val orderViewModel: ListOfOrderViewModel by activityViewModels() {
         val application = requireNotNull(this.activity).application
         val dataSource = OrderDatabase.getInstance(application).orderDatabaseDao
-
         ListOfOrderViewModelFactory(dataSource, application)
-        //orderViewModel = ViewModelProvider(requireActivity(), listOfOrderViewModelFactory).get(ListOfOrderViewModel::class.java)
     }
     private lateinit var viewModel: ShipmentViewModel
     private val adresViewModel: AdresViewModel by activityViewModels()
@@ -69,8 +61,6 @@ class ShipmentFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.title = "Shipment Module"
-        //activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
-
     }
 
     override fun onCreateView(
@@ -78,12 +68,7 @@ class ShipmentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shipment, container, false)
-
-
         viewModel = ViewModelProvider(requireActivity())[ShipmentViewModel::class.java]
-
-
-        //viewModel.setOrders(orderViewModel.dataOrders.value!!)
         items = cartViewModel.cart.value!!;
 
         binding.shipmentText.setText(
@@ -93,9 +78,7 @@ class ShipmentFragment : Fragment() {
         binding.apply {
             shipmentTypeBoxSpinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
 
                     override fun onItemSelected(
                         parent: AdapterView<*>?,
@@ -115,26 +98,25 @@ class ShipmentFragment : Fragment() {
                             formaatDoosInvullen(diepteEdit, false)
                             berekenPrijsSubtotaal()
                         }
-
                     }
-
                 }
         }
-
-
 
         binding.breedteEdit.addTextChangedListener(textWatcher)
         binding.hoogteEdit.addTextChangedListener(textWatcher)
         binding.diepteEdit.addTextChangedListener(textWatcher)
 
-
-
         binding.shipmentBestellingButton?.setOnClickListener { view: View ->
             if (binding.breedteEdit.text.toString() != "" || binding.hoogteEdit.text.toString() != ""|| binding.diepteEdit.text.toString() != "") {
+                val handler = Handler()
                 val ord = plaatsBestelling()
-                val bundle = bundleOf("OrderNr" to ord.orderId)
-                view.findNavController()
-                    .navigate(R.id.action_shipmentFragment_to_orderDetailFragment, bundle)
+                handler.postDelayed({
+                    val bundle = bundleOf("OrderNr" to ord.orderId)
+                    view.findNavController().navigate(R.id.action_shipmentFragment_to_listOfOrderFragment, bundle)
+                }, 1000)
+
+                //val bundle = bundleOf("OrderNr" to ord.orderId)
+                //view.findNavController().navigate(R.id.action_shipmentFragment_to_orderDetailFragment, bundle)
             } else {
                 Toast.makeText(
                     context,
@@ -143,11 +125,8 @@ class ShipmentFragment : Fragment() {
                 ).show()
             }
         }
-
         return binding.root
     }
-
-
 
     private fun formaatDoosInvullen(et: EditText, standaard: Boolean) {
         binding.apply {
@@ -168,25 +147,18 @@ class ShipmentFragment : Fragment() {
         var hoogte: Int = 50
         var diepte = 50
 
-
         val price = items.let { calculateNetPrice(it) };
         binding.apply {
             if (breedteEdit.text.toString() != "")
                 breedte = breedteEdit.text.toString().toInt()
-
             if (hoogteEdit.text.toString() != "")
                 hoogte = hoogteEdit.text.toString().toInt()
             if (diepteEdit.text.toString() != "")
                 diepte = diepteEdit.text.toString().toInt()
 
-
             subtotaalPrijs.text = " €" + price.toString().take(5)
         }
-
         berekenPrijsNaSubtotaal(price, items, breedte,hoogte,diepte)
-
-
-
 
         return price.toInt()
     }
@@ -207,7 +179,6 @@ class ShipmentFragment : Fragment() {
         width = breedte.toDouble()
         dept = diepte.toDouble()
 
-
         val palletPrijs = 10
         val prijs_verzending = 15
         val productAfmetingen = berekenGrootsteAfmetingen(items)
@@ -226,7 +197,6 @@ class ShipmentFragment : Fragment() {
 
             val dozenprijs = (hoeveelheidDozen * doos.price)
             val palettenprijs = (hoeveelheidPaletten *palletPrijs)
-
 
             val totalPrice = dozenprijs + palettenprijs + (1 * prijs_verzending) + subPrice
 
@@ -261,12 +231,9 @@ class ShipmentFragment : Fragment() {
         }catch (e: Exception){
             binding.apply {
                 errorText?.text = e.message.toString()
-
             }
         }finally {
-
         }
-
     }
 
 

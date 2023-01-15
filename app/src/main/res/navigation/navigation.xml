@@ -39,7 +39,8 @@
         tools:layout="@layout/fragment_list_of_order">
         <action
             android:id="@+id/action_listOfOrderFragment_to_orderDetailFragment"
-            app:destination="@id/orderDetailFragment" />
+            app:destination="@id/orderDetailFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -58,8 +59,11 @@
         <action
             android:id="@+id/action_shipmentFragment_to_orderDetailFragment"
             app:destination="@id/orderDetailFragment"
-            app:popUpTo="@id/listOfOrderFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/simpleShopFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_shipmentFragment_to_listOfOrderFragment"
+            app:destination="@id/listOfOrderFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_startFragment"

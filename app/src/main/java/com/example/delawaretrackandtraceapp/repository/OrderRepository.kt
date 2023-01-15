@@ -73,13 +73,9 @@ class OrderRepository(private val database: OrderDatabase, private val orderItem
             packageApi = packageApi,
         )
 
-        try {
-            Log.i("Order Nr", newApiOrder.orderId.toString())
-            val checkApiOrder = DelawareApi.retrofitService.putOrder(newApiOrderPost).await()
-            Log.i("Order Nr2", newApiOrder.orderId.toString())
-        } catch (e: Exception){
-
-        }
+        Log.i("Order Nr", newApiOrder.orderId.toString())
+        val checkApiOrder = DelawareApi.retrofitService.putOrder(newApiOrderPost).await()
+        Log.i("Order Nr2", newApiOrder.orderId.toString())
 
         database.orderDatabaseDao.insert(newApiOrder.asDatabaseOrder())
 

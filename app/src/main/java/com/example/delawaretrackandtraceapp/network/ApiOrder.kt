@@ -20,8 +20,8 @@ data class OneApiOrderContainer(
 )
 
 data class OneApiOrderPostContainer(
-    @Json(name = "order")
-    val oneApiOrderPost: ApiOrderPost
+    @Json(name = "orderId")
+    val orderId: String?
 )
 
 data class OneApiOrderPutContainer(

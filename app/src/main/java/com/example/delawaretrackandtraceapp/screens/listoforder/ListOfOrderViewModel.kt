@@ -54,7 +54,9 @@ class ListOfOrderViewModel(val database: OrderDatabaseDao, app: Application) : A
 
     fun addOrder(order: OrderPost, orderItems: List<OrderItem>, packageApi: Package) {
         viewModelScope.launch {
+            _status.value = OrderApiStatus.LOADING
             saveOrderWithRepository(order, orderItems, packageApi)
+            _status.value = OrderApiStatus.DONE
         }
     }
 
